@@ -64,6 +64,13 @@ class UserController extends Controller
 
     // USER PROFILE API - GET
     public function profile() {
+        $user_data = auth()->user();
+
+        return response()->json([
+            'status'=> 1,
+            'message' => 'User Profile Information',
+            'data' => $user_data
+        ]);
 
     }
 

@@ -20,7 +20,7 @@ use App\Models\User;
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 
-Route::group(['middleware' => ['api']], function() {
+Route::group(['middleware' => ["auth:api"]], function() {
 
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);
