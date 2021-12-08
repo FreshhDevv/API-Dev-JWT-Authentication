@@ -39,7 +39,27 @@ class UserController extends Controller
 
     // USER LOGIN API - POST
     public function login(Request $request) {
+        // VALIDATION
+        $request->validate([
+            'email'=> 'required | email',
+            'password' => 'required'
+        ]);
 
+        // VERIFICATION + TOKEN
+        // After verifying the user we need to create the JWT token
+        if(!$token = auth()->attempt(['email'=>$request->email, 'password'=>$request->password])) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'Invalid Credentials'
+            ], 401);
+        }
+
+        // SEND RESPONSE
+        return response()->json([
+            'status'=>1,
+            'message'=>'User loggedin successfully',
+            'access_token' => $token
+        ]);
     }
 
     // USER PROFILE API - GET
