@@ -55,6 +55,27 @@ class CourseController extends Controller
     // DELETE COURSE API - GET
     public function deleteCourse($id) {
 
+        $user_id = auth()->user()->id;
+        if(Course::where([
+            'id' => $id,
+            'user_id' => $user_id
+        ])-> exists()) {
+
+            $course = Course::find($id);
+            $course->delete();
+
+            return response()->json([
+                'status' => 1,
+                'message' => 'Course Deleted Successfully'
+            ]);
+
+        } else{
+            return response()->json([
+                'status' => 0,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
     }
 
 
